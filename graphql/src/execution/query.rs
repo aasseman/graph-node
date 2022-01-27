@@ -23,6 +23,11 @@ use crate::{
     schema::api::ErrorPolicy,
 };
 
+use peak_alloc::PeakAlloc;
+
+#[global_allocator]
+static PEAK_ALLOC: PeakAlloc = PeakAlloc;
+
 #[derive(Clone, Debug)]
 pub enum ComplexityError {
     TooDeep,
@@ -307,6 +312,7 @@ impl Query {
                 "variables" => &self.variables_text,
                 "query_time_ms" => self.start.elapsed().as_millis(),
                 "block" => block,
+                "peak_mem_bytes" => PEAK_ALLOC.peak_usage(),
             );
         }
     }
