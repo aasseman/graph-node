@@ -623,13 +623,6 @@ impl Layout {
             }
 
             let mut text = debug_query(&query).to_string().replace("\n", "\t");
-            // If the query + bind variables is more than MAXLEN, truncate it;
-            // this will happen when queries have very large bind variables
-            // (e.g., long arrays of string ids)
-            if text.len() > MAXLEN {
-                text.truncate(MAXLEN);
-                text.push_str(" ...");
-            }
             info!(
                 logger,
                 "Query timing (SQL)";
